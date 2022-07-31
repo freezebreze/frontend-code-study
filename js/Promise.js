@@ -22,3 +22,44 @@ b.then((res) => {
 })
 
 
+//地狱回调
+setTimeout(function () {  //第一层
+    console.log('张三');//等3秒打印张三在执行下一个回调函数
+    setTimeout(function () {  //第二层
+        console.log('李四');//等2秒打印李四在执行下一个回调函数
+        setTimeout(function () {   //第三层
+            console.log('王五');//等一秒打印王五
+        }, 1000)
+    }, 2000)
+}, 3000)
+
+
+//promise 解决
+function callBack(str) {
+    let promise = new promise((resolve, reject) => {
+        let flag = true;
+        setTimeout(() => {
+            if (flag) {
+                resolve(str);
+            } else {
+                reject('error');
+            }
+        });
+    })
+    return promise;
+}
+//链式调用
+callBack('张三').then((res) => {
+    console.log(res);
+    return callBack('李四');
+}).then((res) => {
+    console.log(res);
+    return callBack('王五');
+})
+
+//async
+async function test() {
+    let a = await callBack('a');
+    let b = await callBack('b');
+    
+}
