@@ -5,6 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python",
+            "type": "python",
+            "request": "launch",
+            "stopOnEntry": false,
+            "python": "C:\\Users\\11563\\AppData\\Local\\Programs\\Python\\Python36\\python.exe",
+            "program": "${file}",
+            "cwd": "${workspaceRoot}",
+            "env": {},
+            "envFile": "${workspaceRoot}/.env",
+            "redirectOutput": true,
+        },
+        {
             "name": "Listen for Xdebug",
             "type": "php",
             "request": "launch",
