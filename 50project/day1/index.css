@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+/*
+通配符 所有元素适用
+怪异盒子模型  解析看mdn 
+ */
+* {
+    box-sizing: border-box;
+}
+
+/*
+设置背景颜色为fafafa
+指定字体
+弹性布局
+定义主轴的方向为列
+align-items元素的对齐方式   现在主轴是列 按交叉轴来对齐  交叉轴就是横 从左到右方向 start---center---end center表示每一个元素在交叉轴中点显示
+justify-content 类似 丨线来排元素
+.
+start
+.
+.
+.
+center
+.
+.
+end
+.
+ */
+body {
+    background-color: #fafafa;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* 
+按钮样式 
+border: 0; 去掉边框
+border-radius: 3px; 圆弧
+letter-spacing 文字间距
+
+*/
+.magic {
+    background-color: #f9ca24;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    border: 0;
+    border-radius: 3px;
+    font-size: 16px;
+    padding: 12px 20px;
+    cursor: pointer;
+    position: fixed;
+    top: 20px;
+    letter-spacing: 1px;
+    box-shadow: 0 3px rgba(249, 202, 36, 0.5);
+    z-index: 100;
+}
+
+/* 
+CSS伪类 :focus表示获得焦点的元素（如表单输入）。当用户点击或触摸元素或通过键盘的 “tab” 键选择它时会被触发。
+ */
+.magic:focus {
+    outline: none;
+}
+
+/* transform: translateY(2px);属性允许你旋转，缩放，倾斜或平移给定元素 向y轴 下移2px 正为下 负为上 */
+.magic:active {
+    box-shadow: none;
+    transform: translateY(2px);
+}
+
+/* 
+:focus
+:active
+这种一个引号标记起来的是为类 就是添加到元素上的类 focus获得焦点时添加的类  active 选中时激活的类
+ */
+
+/* flex-wrap元素是否换行 */
+/* justify-content 顺着flex布局的主轴  默认主轴是row 行  -> */
+/* 均匀排列每个元素
+         space-around                          每个元素周围分配相同的空间 */
+.boxes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    height: 500px;
+    width: 500;
+    position: relative;
+    transition: 0.4s ease;
+}
+
+.boxes.big {
+    width: 600px;
+    height: 600px;
+}
+
+.boxes.big .box {
+    transform: rotateZ(360deg);
+}
+
+.box {
+    background-image: url('https://media.giphy.com/media/EZqwsBSPlvSda/giphy.gif');
+    background-repeat: no-repeat;
+    background-size: 500px 500px;
+    position: relative;
+    height: 125px;
+    width: 125px;
+    transition: 0.4s ease;
+}
+
+.box::after {
+    content: '';
+    background-color: #f6e58d;
+    position: absolute;
+    top: 8px;
+    right: -15px;
+    height: 100%;
+    width: 15px;
+    transform: skewY(45deg);
+}
+
+.box::before {
+    content: '';
+    background-color: #f9ca24;
+    position: absolute;
+    bottom: -15px;
+    left: 8px;
+    height: 15px;
+    width: 100%;
+    transform: skewX(45deg);
+}
