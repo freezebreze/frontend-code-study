@@ -9,7 +9,7 @@
             "type": "python",
             "request": "launch",
             "stopOnEntry": false,
-            "python": "C:\\Users\\11563\\AppData\\Local\\Programs\\Python\\Python36\\python.exe",
+            "python": "C:\\Users\\11563\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
             "program": "${file}",
             "cwd": "${workspaceRoot}",
             "env": {},
