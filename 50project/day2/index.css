@@ -1,0 +1,96 @@
+html,
+body {
+    height: 100%;
+    font-size: 10px;
+    background: rgb(178, 200, 210);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+a {
+    text-decoration: none;
+}
+
+.logo-text {
+    background: white;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 37px;
+}
+
+.thumbnail-title {
+    display: block;
+    margin: 0;
+    padding: 4px 10px;
+    background: rgb(96, 125, 139);
+    color: rgb(202, 238, 255);
+    font-size: 18px;
+}
+
+.thumbnail-image {
+    display: block;
+    width: 100%;
+}
+
+
+
+.thumbnail-item {
+    display: inline-block;
+    min-width: 120px;
+    max-width: 120px;
+    border: 1px solid rgb(100%, 100%, 100%);
+    border: 1px solid rgba(100%, 100%, 100%, 0.8);
+}
+
+.thumbnail-list {
+    display: flex;
+    flex: 0 1 auto;
+    order: 2;
+    justify-content: space-between;
+    white-space: nowrap;
+    padding: 0;
+    list-style: none;
+    overflow-x: auto;
+}
+
+.detail-image {
+    width: 90%;
+}
+
+.main-header {
+    flex: 0 1 auto;
+}
+
+
+
+.main-content {
+    display: flex;
+    flex: 1 1 auto;
+
+    flex-direction: column;
+}
+
+.detail-image-container {
+    display: flex;
+    justify-content: center;
+    flex: 1 1 auto;
+}
+
+.detail-image-frame {
+    position: relative;
+    text-align: center;
+    transition: transform 333ms cubic-bezier(1,0.6,.28,.1);
+    /* overflow: hidden; */
+}
+
+.detail-image-title {
+    position: absolute;
+    bottom: 156px;
+    left: 12px;
+    color: white;
+    text-shadow: rgba(0, 0, 0, 0.9) 1px 2px 9px;
+    font-size: 40px
+}
