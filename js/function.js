@@ -120,3 +120,96 @@ var factorial = (n) => {
 let fastFactorial = memoized(factorial);
 console.log(fastFactorial(5));
 console.log(fastFactorial(5));
+
+const filter = (array, fn) => {
+    let result = [];
+    for (const value of array) {
+        (fn(value)) ? result.push(value) : undefined;
+    }
+    return result;
+}
+
+//数组扁平化
+const concatAll = (array) => {
+    let results = [];
+    for (const value of array) {
+        //push(v1,v2,v3,v4) 用apply方法解决需要填多个值的情况把数组传递给apply
+        results.push.apply(results, value);
+    }
+
+    return results;
+}
+
+const reduce = (array, fn, initialValue) => {
+    let accumlator;
+    //如果设置了初始参数则讲其赋值给init 
+    if (initialValue != undefined) {
+        accumlator = initialValue;
+    }
+    else {
+        //没有给初始值就取第一个
+        accumlator = array[0];
+    }
+
+    if (initialValue === undefined) {
+        //从数组的第二个元素 也就是下标为1的元素取值
+        for (let i = 1; i < array.length; i++) {
+            accumlator = accumlator + array[i];
+        }
+    } else {
+        for (const value of array) {
+            //从0开始加起 有初始值
+            accumlator = fn(accumlator, value)
+        }
+    }
+
+    return accumlator;
+}
+//合并两个给定的数组
+const zip = (leftArr, rightArr, fn) => {
+    let index, results = [];
+    for (index = 0; index < Math.min(leftArr.length, rightArr.length); index++) {
+        results.push(fn(leftArr[index], rightArr[index]));
+    }
+    return results;
+}
+
+//一元柯里化
+const curry = (binaryFn) => {
+    return function (firstArg) {
+        return function (secondArg) {
+            return binaryFn(firstArg, secondArg);
+        }
+    }
+}
+
+const add = (x, y) => x + y;
+let autoCurriedAdd = curry(add)
+console.log("Curried summation", autoCurriedAdd(2)(2)); // 打印 "Curried summation 4"
+
+
+//n柯里化
+const curryN = (fn) => {
+    //检测fn是不是函数
+    if (typeof (fn) !== 'function') {
+        throw Error('no function provided')
+    }
+    return function curriedFn(...args) {
+        //如果传进来的参数还不够fn函数所需要的参数
+        if (args.length < fn.length) {
+            return function () {
+                return curriedFn.apply(null, args.concat([].slice.call(arguments)));
+            }
+        }
+
+        //参数够了则直接运行
+        return fn.apply(null, args);
+    }
+}
+
+const setTimeoutWrapper = (time, fn) => {
+    setTimeout(fn, time);
+}
+const delayTenMs = curryN(setTimeoutWrapper)(1000);
+delayTenMs(() => console.log("Do X task")); // 一秒后打印 "Do X task"
+delayTenMs(() => console.log("Do Y task")); // 一秒后打印 "Do Y task"
