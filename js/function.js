@@ -213,3 +213,62 @@ const setTimeoutWrapper = (time, fn) => {
 const delayTenMs = curryN(setTimeoutWrapper)(1000);
 delayTenMs(() => console.log("Do X task")); // 一秒后打印 "Do X task"
 delayTenMs(() => console.log("Do Y task")); // 一秒后打印 "Do Y task"
+//偏应用 柯里化预设参数值
+const partial = function (fn, ...partialArgs) {
+    let args = partialArgs.slice(0);//返回一个参数得新数组，不要对原始参数做改变
+    //返回一个函数
+    return function(...fullArguments) {
+        let arg = 0;
+        //从第一个参数开始 如果参数已经够了则执行函数
+        for(let i = 0; i < args.length && arg < fullArguments.length; i++) {
+            
+            //如果当前得参数没有设置 也就是undefined  args得值设置为传入得参数 从0开始取，
+            if (args[i] === undefined) {
+                args[i] = fullArguments[arg++];
+            }
+        }
+        return fn.apply(this, args);
+    }
+}
+let delayTenMsPartial = partial(setTimeout, undefined, 1000);//function(...fullArguments) args = ['setTimeout', 'undefined', 1000]
+delayTenMsPartial(() => console.log("Do X. . .  task"))//fullArguments = [fn]
+delayTenMsPartial(() => console.log("Do Y . . . . task"))
+//函数得组合
+
+let compose = (a, b) => (c) => {
+    return a(b(c));
+}
+//组合多个函数 数据流是从右往左 执行组合得函数
+let composeN = (...fns) => {
+    return (value) => {
+        reduce(fns.reverse(), (acc, fn) => {
+            return fn(acc);
+        }, value)
+    }
+}
+// let testComposeN = pipe(fn1, fn2, fn3)  testComposeN(v) => fn1(fn2(fn3(v)))
+//管道 数据流从左往右执行组合得函数
+let pipe = (...fns) => {
+    return (value) => {
+        reduce(fns, (acc, fn) => {
+            return fn(acc);
+        }, value)
+    }
+}
+// let testPipe = pipe(fn1, fn2, fn3)  testPipe(v) => fn3(fn2(fn1(v)))
+
+
+//函子
+const container = function(val) {
+    this.value = val;
+}
+
+container.of = function(value) {
+    return new container(value);
+}
+
+container.prototype.map = function(fn) {
+    return container.of(fn(this.value));
+}
+let double = (x) => x + x;
+container.of(3).map(double).map(double)
