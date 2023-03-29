@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>点击上传file</title>
+    <style>
+        .upimg {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="file" name="myFile" id="upload">
+</body>
+<script>
+    let ipt = document.getElementById('upload');
+    ipt.addEventListener('change', (e) => {
+        let data = new FormData();
+        data.append('touxiang', ipt.files.item(0));
+        let fileData = data.get('touxiang');
+        uploadSuccess(fileData);
+    })
+    let uploadSuccess = (fileData) => {
+        let reader = new FileReader();
+        let type = fileData.type;
+        reader.onload = function (e) {
+            if (/^image\/[jpeg|png|gif]/.test(type)) {
+                let img = document.createElement("img");
+                img.src = e.target.result;
+                img.classList = 'upimg';
+                document.body.appendChild(img); // 将图片插入body中
+            }
+        }
+        reader.readAsDataURL(fileData);
+    }
+
+
+
+</script>
+
+</html>
