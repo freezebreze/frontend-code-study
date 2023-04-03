@@ -272,3 +272,15 @@ container.prototype.map = function(fn) {
 }
 let double = (x) => x + x;
 container.of(3).map(double).map(double)
+
+// let fn1 = () => {
+//     let memoized = {};
+//     return function (pre, current) {
+//         memoized[current]? pre.push(''): (memoized[current] = 1, pre.push(current));
+//         return pre;
+//     }
+// }
+
+// let test_array = ['a', 'a', 'b', 'b', 'c', 'c'];
+// let reducefn = fn1();
+// test_array.reduce(reducefn, []);
