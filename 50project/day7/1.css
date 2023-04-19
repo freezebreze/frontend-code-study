@@ -1,0 +1,36 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* 
+    background: url('https://') no-repeat center center/cover; 
+    这里的center/cover / 是分隔代表两个效果都有  不是除的意思 是用来设置background-size 属性的 它总是跟在background-position后面
+*/
+
+.bg {
+    position: absolute;
+    background: url('https://images.unsplash.com/photo-1576161787924-01bb08dad4a4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2104&q=80') no-repeat center center/cover;
+    top: -30px;
+    left: -30px;
+    width: calc(100vw + 60px);
+    height: calc(100vh + 60px);
+    z-index: -1;
+    filter: blur(0px);
+    /* blur() 函数将高斯模糊应用于输入图像 */
+    /* CSS属性 filter 将模糊或颜色偏移等图形效果应用于元素 */
+}
+
+.loading-text {
+    opacity: 1;
+    font-size: 50px;
+    color: #fff;
+}
