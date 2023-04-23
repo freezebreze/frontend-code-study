@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <input type="text" v-model="name" />
+    {{name}}
+  </div>
+
+  <script>
+    //取得数组的原型对象
+    const oldArrayProtype = Array.prototype;
+    //通过 Object.create()方法将newArrayProtype的原型对象设为数组的原型对象
+    const newArrayProtype = Object.create(oldArrayProtype);
+    // 对数组方法进行重写
+    ["push", "pop", "shift", "unshift", "splice", "reduce", "filter"].forEach(
+      (methodName) => {
+        //给我们自定义对象添加数组方法
+        newArrayProtype[methodName] = function () {
+          //当使用以上方法时，就会触发
+          console.log("refresh");
+          console.log(arguments)
+          //用call将this指向当前对象，调用数组原型上的方法，实现原先数组操作
+          //展开语法https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+          oldArrayProtype[methodName].call(this, ...arguments);
+        };
+      }
+    );
+
+    //定义Vue实例的类
+    class Vue {
+      constructor(options) {
+        //添加Vue实例属性
+        this.$options = options;
+        this.$data = options.data;
+        this.$el = options.el;
+
+        //将实例的data加入响应式系统中
+        new Observer(this.$data);
+
+        //代理this.$data的数据
+        Object.keys(this.$data).forEach((key) => {
+          this._proxy(key);
+        });
+
+        //处理el
+        new Compiler(this.$el, this);
+      }
+
+      _proxy(key) {
+        // 将this.$data上的数据定义在Vue实例上,这样我们可以自己通过Vue.value来使用数据
+        Object.defineProperty(this, key, {
+          configurable: true,
+          enumerable: true,
+          set(newValue) {
+            this.$data[key] = newValue;
+          },
+          get() {
+            return this.$data[key];
+          },
+        });
+      }
+    }
+
+    class Observer {
+      constructor(data) {
+        this.data = data;
+
+        //不是对象或空值则返回
+        if (typeof data !== "object" || data === null) {
+          return data;
+        }
+
+        //Object.keys(data)取得data对象keys的数组
+        Object.keys(data).forEach((key) => {
+          //当data里的数据是对象时，再次调用Observer对其进行遍历，确保每个属性都被劫持
+          if (Array.isArray(data[key])) {
+            Object.setPrototypeOf(data[key], newArrayProtype);
+          }
+          if (typeof data[key] === "object") {
+            new Observer(data[key]);
+          } else {
+            this.defineReactive(this.data, key, data[key]);
+          }
+        });
+      }
+
+      defineReactive(data, key, value) {
+        //一个key -> 对应一个dep对象
+        const dep = new Dep();
+
+        //对属性进行响应式处理
+        Object.defineProperty(data, key, {
+          //当且仅当该属性的 configurable 键值为 true 时，该属性的描述符才能够被改变，同时该属性也能从对应的对象上被删除。默认为 false。
+          configurable: true,
+          //当且仅当该属性的 enumerable 键值为 true 时，该属性才会出现在对象的枚举属性中。默认为 false。
+          enumerable: true,
+          get() {
+            if (Dep.target) {
+              dep.addSub(Dep.target);
+            }
+            return value;
+          },
+          set(newValue) {
+            new Observer(newValue);
+            if (newValue !== value) {
+              value = newValue;
+              dep.notify();
+              console.log("refresh");
+            }
+          },
+        });
+      }
+    }
+
+    class Dep {
+      constructor() {
+        // 定义数组，存放依赖
+        this.subs = [];
+      }
+      //当watcher生成时调用sub即使watcher
+      addSub(sub) {
+        //将watcher加入数组
+        this.subs.push(sub);
+      }
+      notify() {
+        this.subs.forEach((sub) => {
+          //遍历数组，调用watcher上定义的update方法
+          sub.update();
+        });
+      }
+    }
+
+    class Watcher {
+      constructor(node, name, vm) {
+        this.node = node;
+        this.name = name;
+        this.vm = vm;
+        Dep.target = this;
+        this.update();
+        Dep.target = null;
+      }
+      update() {
+        this.node.nodeValue = this.vm[this.name];
+      }
+    }
+
+    const reg = /\{\{(.*)\}\}/;
+    class Compiler {
+      //el -> #app   vm当前vue实例
+      constructor(el, vm) {
+        // 获取#app div元素
+        this.el = document.querySelector(el);
+        this.vm = vm;
+
+        this.frag = this.createFragment();
+        this.el.appendChild(this.frag);
+      }
+      createFragment() {
+        // 创建文档片段
+        const frag = document.createDocumentFragment();
+
+        let child;
+        //获取#app 的第一个节点
+        while ((child = this.el.firstChild)) {
+          this.compile(child);
+          frag.appendChild(child);
+        }
+        return frag;
+      }
+      compile(node) {
+        //(node.nodeType === 1) 一个元素节点,例如 <p> 和 <div>
+        if (node.nodeType === 1) {
+          //拿到该节点上的属性 ( type="text" v-model="name")
+          const attrs = node.attributes;
+          if (attrs.hasOwnProperty("v-model")) {
+            //取得v-model绑定的值，即name
+            const name = attrs["v-model"].nodeValue;
+            //对该元素节点(input)进行事件监听
+            node.addEventListener("input", (e) => {
+              //通过事件对象e来取得input输入框内的值
+              //因为做过代理，vm[name]，即使data里的name属性
+              this.vm[name] = e.target.value;
+            });
+          }
+        }
+        //(node.nodeType === 3) Element或者Attr中实际的文字
+        if (node.nodeType === 3) {
+          //通过正则来匹配用到的数据
+          console.log(reg.test(node.nodeValue));
+          if (reg.test(node.nodeValue)) {
+            // RegExp.$1 去匹配到的第一个区域 即(.*)里的值name
+            const name = RegExp.$1.trim();
+            console.log(name);
+            //关键点，此处用到了name，我们创建一个wather对象，形成依赖
+            new Watcher(node, name, this.vm);
+          }
+        }
+      }
+    }
+  </script>
+
+  <script>
+    const app = new Vue({
+      el: "#app",
+      data: {
+        name: "dawn",
+        age: 12,
+        friend: {
+          friendName: "ibuki",
+        },
+        colors: ["red", "orange", "yellow"],
+      },
+    });
+  </script>
+</body>
+
+</html>
