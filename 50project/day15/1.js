@@ -38,7 +38,7 @@ canvas.addEventListener('mousemove', (e) => {
 
         drawCircle(x2, y2)//先在按压下的地方画个圆 
         drawLine(x, y, x2, y2) //然后计算差值一直往前渲染 就成一条线
-
+        //鼠标停止得地方
         x = x2
         y = y2
     }
@@ -86,6 +86,10 @@ decreaseBtn.addEventListener('click', () => {
 
     updateSizeOnScreen()
 })
+
+function updateSizeOnScreen() {
+    sizeEL.innerText = size
+}
 
 //input的事件 更改颜色的时候 设置画笔颜色为选中的颜色
 colorEl.addEventListener('change', (e) => color = e.target.value)
