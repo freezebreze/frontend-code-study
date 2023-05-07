@@ -10,3 +10,14 @@ function myNew(fn, ...arg) {
     return result instanceof Object? result : obj;
 }
 // 构造函数要是没有显示的return 一个对象 那么就会方法刚才创建的新对象
+
+Function.prototype.myBind = function(context) {
+    if (typeof this !== 'function') {
+        throw new TypeError('Error')
+    }
+    const args = [...arguments].slice(1)
+    fn = this
+    return function Fn() {
+        return fn.apply(this instanceof Fn? new fn(...arguments) : context, args.concat(...arguments))
+    }
+}
