@@ -2,4 +2,7 @@ var myobj = {
     code: 122,
     name: 'ruansheng'
 };
-myobj.code = 1;
+var a = {
+    name: 'ras',
+    age: 18,
+};
