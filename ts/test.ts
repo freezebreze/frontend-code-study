@@ -16,3 +16,4 @@ const a: ren = {
     name: 'ras',
     age: 18,
 }
+declare const jQuery: (selector: string) => any

@@ -145,3 +145,4 @@ declare var jQuery: (selector: string) => any;
 // declare enum 声明全局枚举类型
 // declare namespace 声明（含有子属性的）全局对象
 // interface 和 type 声明全局类型
+//泛型 <T>   两个括号包起来 
