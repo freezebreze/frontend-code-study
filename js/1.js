@@ -22,3 +22,26 @@ class watcher {
      * 
      */
 }
+
+setTimeout(() => {
+    console.log(5)
+}, 0)
+console.log(1)
+new Promise((re, rj) => {
+    console.log(2)
+    re()
+}).then((res) => {
+    console.log(4)
+})
+console.log(3)
+
+//expect out put  12345
+
+
+function delay(ms) {
+    return new Promise((re, rj) => {
+        setTimeout(() => {
+            re()
+        }, ms);
+    })
+}
