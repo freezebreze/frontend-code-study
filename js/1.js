@@ -41,7 +41,7 @@ console.log(3)
 function delay(ms) {
     return new Promise((re, rj) => {
         setTimeout(() => {
-            re()
+            re
         }, ms);
     })
 }
