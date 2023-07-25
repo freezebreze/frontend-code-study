@@ -1,5 +1,5 @@
 const ajax = (method, url) => {
-    return new Promise((res, rej) => {
+    return new Promise((resolve, reject) => {
         //发起网络请求 成功resolve  失败reject
         let request = new XMLHttpRequest()
         request.open(method, url)

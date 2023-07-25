@@ -45,3 +45,19 @@ function delay(ms) {
         }, ms);
     })
 }
+
+Promise.resolve().then(() => {
+    Promise.resolve().then(() => {
+        console.log(1)
+    }).then(() => {
+        console.log(2)
+    })
+}).then(() => {
+    console.log(3)
+})
+
+console.log(1)
+Promise.resolve().then(() => {
+    console.log(2)
+})
+console.log(3)
