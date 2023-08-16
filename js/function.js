@@ -188,7 +188,7 @@ let autoCurriedAdd = curry(add)
 console.log("Curried summation", autoCurriedAdd(2)(2)); // 打印 "Curried summation 4"
 
 
-//n柯里化
+//n柯里化  [].slice.call(arguments) 将arguments类数组对象转换为数组
 const curryN = (fn) => {
     //检测fn是不是函数
     if (typeof (fn) !== 'function') {
@@ -217,11 +217,11 @@ delayTenMs(() => console.log("Do Y task")); // 一秒后打印 "Do Y task"
 const partial = function (fn, ...partialArgs) {
     let args = partialArgs.slice(0);//返回一个参数得新数组，不要对原始参数做改变
     //返回一个函数
-    return function(...fullArguments) {
+    return function (...fullArguments) {
         let arg = 0;
         //从第一个参数开始 如果参数已经够了则执行函数
-        for(let i = 0; i < args.length && arg < fullArguments.length; i++) {
-            
+        for (let i = 0; i < args.length && arg < fullArguments.length; i++) {
+
             //如果当前得参数没有设置 也就是undefined  args得值设置为传入得参数 从0开始取，
             if (args[i] === undefined) {
                 args[i] = fullArguments[arg++];
@@ -259,15 +259,15 @@ let pipe = (...fns) => {
 
 
 //函子
-const container = function(val) {
+const container = function (val) {
     this.value = val;
 }
 
-container.of = function(value) {
+container.of = function (value) {
     return new container(value);
 }
 
-container.prototype.map = function(fn) {
+container.prototype.map = function (fn) {
     return container.of(fn(this.value));
 }
 let double = (x) => x + x;
