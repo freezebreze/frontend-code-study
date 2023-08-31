@@ -1,0 +1,16 @@
+.sidebar {
+    display: flex;
+}
+
+.sidebar__sidebar {
+    width: 30%;
+    border: 1px solid #000;
+    height: 100vh;
+}
+
+.sidebar__main {
+    flex: 1;
+    overflow: auto;
+    height: 100vh;
+    border: 1px solid #ba5c5c;
+}
