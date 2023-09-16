@@ -1,0 +1,46 @@
+a {
+    text-decoration: none;
+}
+
+a:link {
+    color: #3b3737;
+}
+
+ol {
+    padding: 0;
+}
+
+
+.header {
+    height: 100px;
+    background-color: rgb(156, 180, 216);
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+}
+
+.header>nav {
+    display: flex;
+}
+
+.header>nav>ol {
+    width: 80px;
+    height: 40px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+.header>nav>ol:hover {
+    transition: all 0.2s ease-in-out;
+    background-color: #52a9c1d4;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
