@@ -23,8 +23,8 @@ function quickSort(arr, begin, end) {
             arr[j] = arr[i];
         }
         arr[i] = empty;
-        sort(arr, begin, i - 1);
-        sort(arr, i + 1, end);
+        quickSort(arr, begin, i - 1);
+        quickSort(arr, i + 1, end);
     } else {
         return;
     }
