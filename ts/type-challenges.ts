@@ -1,7 +1,8 @@
 //实现内置returntype
-type myReturn<T> = T extends (...arg: any[]) => infer r ? r : never;
+type myReturn<T extends Function> = T extends (...arg: any) => infer r
+  ? r
+  : never;
 let somePerson: myReturn<() => { name: string; age: number }>;
-let valueofreturn: myReturn<string>;
 //实现内置omit
 type myOmit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
 interface Todo {
@@ -10,7 +11,6 @@ interface Todo {
   completed: boolean;
   createdAt?: number;
 }
-
 type TodoPreview = myOmit<Todo, "description">;
 type myPartial<T> = {
   [k in keyof T]?: T[k];
@@ -50,3 +50,16 @@ declare function f1(arg: { a: number; b: string }): void;
 type T1 = myParameters<(a: number) => any>;
 type T3 = Parameters<typeof f1>;
 let t3Value: T3 = [{ a: 1, b: "hello" }];
+
+const tuple = ["tesla", "model 3", "model X", "model Y"] as const;
+
+type person = (typeof tuple)[number];
+type TupleToObject<T extends PropertyKey[]> = {
+  [P in T[number]]: P;
+};
+type Flatten<T> = T extends any[] ? T[number] : T;
+type Features = {
+  [n: number]: unknown;
+  darkMode: () => void;
+  newUserProfile: () => void;
+};
