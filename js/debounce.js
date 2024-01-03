@@ -12,7 +12,7 @@ function debounce(func, wait) {
         let arg = arguments;
         if (timeout) clearTimeout(timeout); // timeout 不为null
         timeout = setTimeout(() => {
-            func.apply(context, args)
+            func.apply(context, arg)
         }, wait);
     }
 }
