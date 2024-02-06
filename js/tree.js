@@ -12,3 +12,41 @@ function TraversalTree(node) {
     TraversalTree(node.left)
     TraversalTree(node.right)
 }
+
+//前序  后序可以把结果反转
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ * @param root TreeNode
+ */
+preorderTraversal = (root) => {
+    const res = []
+    const stk = [root]
+    while (stk.length) {
+        const node = stk.pop()
+        if (node != null) {
+            res.push(node.val)
+            stk.push(node.right, node.left)
+        }
+    }
+    return res
+}
+//中序
+var inorderTraversal = function (root) {
+    const res = [];
+    const stk = [];
+    while (root || stk.length) {
+        while (root) {
+            stk.push(root);
+            root = root.left;
+        }
+        root = stk.pop();
+        res.push(root.val);
+        root = root.right;
+    }
+    return res;
+};
