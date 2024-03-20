@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    :root {
+        --progress: 0%;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .g-container {
+        width: 240px;
+        height: 25px;
+        border-radius: 25px;
+        background: #eee;
+    }
+
+    .g-progress {
+        width: var(--progress);
+        height: inherit;
+        border-radius: 25px;
+        background: rgba(5, 27, 54, 0.685);
+        transition: width .2s linear;
+    }
+</style>
+
+<body>
+    <div class="g-container">
+        <div class="g-progress" style="width: var(--progress);"></div>
+    </div>
+    <script>
+        const progress = document.querySelector('.g-progress');
+        let curWidth = 0
+
+        function incProgress() {
+            curWidth++;
+            progress.style.setProperty('--progress', curWidth + '%');
+            if (curWidth < 100) {
+                requestAnimationFrame(incProgress);
+            } else {
+                curWidth = 0;
+                setTimeout(() => {
+                    progress.style.setProperty('--progress', curWidth + '%');
+                }, 500);
+                setTimeout(() => {
+                    curWidth = 0;
+                    incProgress();
+                }, 2000);
+            }
+        }
+        incProgress() 
+    </script>
+</body>
+
+
+</html>
