@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .list {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <ul class="list">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul>
+    <script>
+        const list = document.querySelector('.list');
+        list.addEventListener('click', (e) => {
+            console.log(e.target);
+            console.log(e.currentTarget);
+            setTimeout(() => {
+                console.log(e.target);
+                console.log(e.currentTarget);
+            }, 0);
+        }, false)
+    </script>
+</body>
+
+</html>
