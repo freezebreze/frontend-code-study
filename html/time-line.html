@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>time-line</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: url('https://zyyo.net/static/img/background.jpg') center center / cover no-repeat;
+        }
+
+        .box {
+            width: 600px;
+            padding: 30px;
+        }
+
+        .main {
+            background-color: #00000028;
+            list-style: none;
+            height: 300px;
+            overflow-x: visible;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .main li {
+            position: relative;
+            border-left: 3px solid #fff;
+            padding-left: 30px;
+            height: 100px;
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+        }
+
+        .main li::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 22px;
+            background-color: #fff;
+            border: 2px solid #fff;
+            position: absolute;
+            left: -8px;
+            top: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <ul class="main"></ul>
+    </div>
+
+    <script>
+        const items = [
+            {
+                create: '2019-01-01',
+                title: 'title1',
+                content: 'content1'
+            },
+            {
+                create: '2019-01-03',
+                title: 'title2',
+                content: 'content2'
+            },
+            {
+                create: '2019-01-03',
+                title: 'title3',
+                content: 'content3'
+            },
+            {
+                create: '2019-01-03',
+                title: 'title4',
+                content: 'content5'
+            },
+            {
+                create: '2019-01-03',
+                title: 'title6',
+                content: 'content7'
+            },
+            {
+                create: '2019-01-03',
+                title: 'title6',
+                content: 'content7'
+            },
+            {
+                create: '2019-01-03',
+                title: 'title6',
+                content: 'content7'
+            },
+            {
+                create: '2019-01-03',
+                title: 'title6',
+                content: 'content7'
+            },
+            {
+                create: '2019-01-03',
+                title: 'title6',
+                content: 'content7'
+            },
+            {
+                create: '2019-01-03',
+                title: 'title6',
+                content: 'content7'
+            },
+            {
+                create: '2019-01-03',
+                title: 'title6',
+                content: 'content7'
+            },
+            {
+                create: '2019-01-03',
+                title: 'title6',
+                content: 'content7'
+            }
+
+        ]
+        const main = document.querySelector('.main')
+        let innerHTML = ''
+        for (let i = 0; i < items.length; i++) {
+            let li = document.createElement('li')
+            innerHTML += `
+                <li>
+                    <div class="time">${items[i].create}</div>
+                    <div class="title">${items[i].title}</div>
+                    <div class="content">${items[i].content}</div>
+                </li>
+            `
+        }
+        main.innerHTML = innerHTML
+    </script>
+</body>
+
+</html>
