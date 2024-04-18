@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+</head>
+
+<body>
+    <ul id="myList">
+        <li id="item1">项目 1</li>
+        <li id="item3">项目 3</li>
+        <li id="item2">项目 2</li>
+        <li id="item4">项目 4</li>
+    </ul>
+
+    <script>
+        function sortAndReturnTextContent() {
+            const items = document.getElementById('myList').children;
+            const parent = document.getElementById('myList')
+            for (let i = 0; i < items.length; i++) {
+                for (let j = 0; j < items.length - 1; j++) {
+                    if (items[j].textContent.match(/[0-9]/g)[0] > items[j + 1].textContent.match(/[0-9]/g)[0]) {
+                        parent.insertBefore(items[j + 1], items[j])
+                    }
+                }
+            }
+        }
+        sortAndReturnTextContent()
+    </script>
+
+
+
+</body>
+
+</html>
